@@ -2,13 +2,11 @@
   "fitbit": {
     "appUUID": "fb338486-0d4c-4f71-b0c7-508678c34195",
     "appType": "clockface",
-    "appDisplayName": "Minimal",
+    "appDisplayName": "Minimal Clock",
     "iconFile": "resources/icon.png",
     "wipeColor": "",
     "requestedPermissions": [
-      "access_activity",
-      "access_heart_rate",
-      "access_user_profile"
+      "access_heart_rate"
     ],
     "buildTargets": [
       "higgs",
@@ -18,7 +16,7 @@
     ],
     "i18n": {
       "en": {
-        "name": "Minimal"
+        "name": "Minimal Clock"
       }
     },
     "defaultLanguage": "en-US"
