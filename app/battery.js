@@ -9,7 +9,8 @@ let batteryCallback;
 
 export function initialize(callback) {
   batteryCallback = callback;
-  battery.onchange = () => updateBattery()
+  updateBattery();
+  battery.onchange = () => updateBattery();
 }
 
 function updateBattery() {
@@ -21,10 +22,10 @@ function updateBattery() {
   batteryString = `${battery.chargeLevel}%`;
   
   if (battery.chargeLevel>90) {
-    hrefString = "images/battery_green.png";
+    hrefString = "images/battery_green_.png";
     widthInt = 26;
   } else if (battery.chargeLevel>16) {
-    hrefString = "images/battery_green_short.png";
+    hrefString = "images/battery_green_short_.png";
     widthInt = Math.floor(0.25*battery.chargeLevel)
   }
   
