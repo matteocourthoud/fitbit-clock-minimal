@@ -29,11 +29,7 @@ export function initialize(callback) {
 }
 
 function getReading() {
-  if (hrm.timestamp === lastReading) {
-    heartRate = "--";
-  } else {
-    heartRate = hrm.heartRate;
-  }
+  heartRate = hrm.heartRate
   lastReading = hrm.timestamp;
   hrmCallback({
     bpm: heartRate,

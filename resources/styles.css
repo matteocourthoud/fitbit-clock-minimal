@@ -7,11 +7,11 @@
 }
 
 .battery-text {
-  font-family: Colfax-Light;
-  font-size: 15;
+  font-family: Colfax-Regular;
+  font-size: 20;
   text-length: 4;
   x: 50;
-  y: 24;
+  y: 26;
   fill: #FFFFFF;
 }
 
@@ -32,17 +32,17 @@
 #iconHRM {
   width: 24;
   height: 24;
-  y: 6;
+  y: 7;
   x: 89%;
   fill: #FF214A;
 }
 
 .hrm-text {
-  font-family: Colfax-Light;
-  font-size: 15;
+  font-family: Colfax-Regular;
+  font-size: 20;
   text-length: 4;
   x: 86%;
-  y: 24;
+  y: 26;
   text-anchor: end;
   fill: #FFFFFF;
 }
@@ -50,7 +50,7 @@
 
 .clock-text {
   font-family: Colfax-Light;
-  font-size: 130;
+  font-size: 110;
   text-anchor: middle;
   text-length: 10;
   x: 50%;
