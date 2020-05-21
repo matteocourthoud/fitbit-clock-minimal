@@ -69,6 +69,7 @@ const imgHRM = iconHRM.getElementById("icon");
 // Update HRM
 function updateHRM(hrm) {
   txtHRM.text = `${hrm.heartRate}`;
+  //console.log(`Current heart rate: ${hrm.heartRate}`);
   const zone = user.heartRateZone(hrm.heartRate || 0);
   if (zone === "out-of-range") {
     imgHRM.href = "images/heart_open.png";
@@ -82,9 +83,7 @@ function updateHRM(hrm) {
 
 
 
-
-
-/* -------- HIDE -------- */
+/* -------- ICONS -------- */
 function changeVisibility(visibility) {
   txtDate.style.visibility = visibility;
   txtHRM.style.visibility = visibility;
@@ -92,13 +91,6 @@ function changeVisibility(visibility) {
   txtBattery.style.visibility = visibility;
   iconBattery.style.visibility = visibility;
   fillBattery.style.visibility = visibility;
-}
-txtTime.onclick = function(e) {
-  if (txtDate.style.visibility == 'visible') {
-    changeVisibility('hidden')
-  } else {
-    changeVisibility('visible')
-  }
 }
 
 
@@ -113,17 +105,32 @@ battery.onchange = () => updateBattery();
 const hrm = new HeartRateSensor();
 hrm.start();
 hrm.onreading = () => updateHRM(hrm); 
+txtTime.onclick = () => updateIcons(hrm); 
 
-// Automatically stop the sensor when the screen is off to conserve battery
+// Automatically stop the sensor when the display is turned off to conserve battery
 display.addEventListener("change", (evt) => {
-  if (display.on) {
+  if (display.on && txtDate.style.visibility == 'visible') {
     hrm.start();
     updateBattery();
     updateHRM(hrm);
    } else {
-    hrm.stop();
+     hrm.stop();
    }
 });
+
+// Automatically stop the sensor when the icons are hidden to conserve battery
+txtTime.onclick = function(e) {
+  if (txtDate.style.visibility == 'hidden') {
+    hrm.start();
+    updateBattery();
+    updateHRM(hrm);
+    changeVisibility('visible')
+  } else {
+    changeVisibility('hidden')
+    hrm.stop();
+  }
+}
+
 
 
  
