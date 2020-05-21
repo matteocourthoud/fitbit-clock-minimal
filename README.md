@@ -2,7 +2,7 @@
 
 ![](screenshots/app.png)
 
-Minimal clock face with great battery performance, for Fitbit Versa, Fitbit Versa 2 and Fitbit Versa Lite. Allows to hide battery and heartrate icons to provide minimal display and further savings on battery life. Requires access to heart rate sensor and user profile to show heart rate live.
+Minimal clock face with great battery performance, for Fitbit Versa, Fitbit Versa 2 and Fitbit Versa Lite by Matteo Courthoud. The default screen displays time, date, battery life and heart rate. It allows to hide battery and heart rate icons to provide minimal display and further savings on battery life. Icons are hidden by clicking on the time. It requires access to heart rate sensor and user profile to show heart rate live.
 
 You can download and install the clock face [here](https://gallery.fitbit.com/details/fb338486-0d4c-4f71-b0c7-508678c34195). 
 
