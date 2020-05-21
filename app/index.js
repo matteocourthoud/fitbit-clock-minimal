@@ -99,11 +99,14 @@ function changeVisibility(visibility) {
 
 /* --------- GENERAL ---------- */
 
+// Init
+const hrm = new HeartRateSensor();
+hrm.start();
+updateBattery();
+
 // Event listeners
 clock.ontick = (evt) => updateClock(evt);
 battery.onchange = () => updateBattery();  
-const hrm = new HeartRateSensor();
-hrm.start();
 hrm.onreading = () => updateHRM(hrm); 
 txtTime.onclick = () => updateIcons(hrm); 
 
@@ -111,8 +114,6 @@ txtTime.onclick = () => updateIcons(hrm);
 display.addEventListener("change", (evt) => {
   if (display.on && txtDate.style.visibility == 'visible') {
     hrm.start();
-    updateBattery();
-    updateHRM(hrm);
    } else {
      hrm.stop();
    }
@@ -122,8 +123,6 @@ display.addEventListener("change", (evt) => {
 txtTime.onclick = function(e) {
   if (txtDate.style.visibility == 'hidden') {
     hrm.start();
-    updateBattery();
-    updateHRM(hrm);
     changeVisibility('visible')
   } else {
     changeVisibility('hidden')
