@@ -2,7 +2,7 @@
   <rect id="background"/>
   <image id="fillBattery" class="battery-fill"/>
   <image id="iconBattery" class="battery-img" href="images/battery.png"/>
-  <text id="txtBattery" class="battery-text"/>
+  <text id="txtBattery" class="battery-text">--</text>
   <use id="iconHRM" href="#heart-beat"/>
   <text id="txtHRM" class="hrm-text">--</text>
   <text id="txtTime" class="clock-text" pointer-events="visible">00:00</text>

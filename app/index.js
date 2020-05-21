@@ -107,7 +107,7 @@ txtTime.onclick = function(e) {
 
 /* --------- GENERAL ---------- */
 
-// Event listenets
+// Event listeners
 clock.ontick = (evt) => updateClock(evt);
 battery.onchange = () => updateBattery();  
 const hrm = new HeartRateSensor();
