@@ -1,79 +1,129 @@
+import * as util from "./utils";
 import document from "document";
+import { user } from "user-profile";
+import { preferences } from "user-settings";
+import { display } from "display";
+import { clock } from "clock";
+import { battery } from "power";
+import { days, months } from "./locales/en.js";
+import { HeartRateSensor } from "heart-rate";
 
-import * as Clock from "./clock";
-import * as Battery from "./battery";
-import * as HRM from "./hrm";
 
 
 
 /* --------- CLOCK ---------- */
-let txtTime = document.getElementById("txtTime");
-let txtDate = document.getElementById("txtDate");
+const txtTime = document.getElementById("txtTime");
+const txtDate = document.getElementById("txtDate");
 
-function clockCallback(data) {
-  txtTime.text = data.time;
-  txtDate.text = data.date;
+clock.granularity = "minutes";
+
+function updateClock(evt) {
+  let today = evt.date;
+  let dayName = days[today.getDay()];
+  let month = util.zeroPad(today.getMonth() + 1);
+  let monthName = months[today.getMonth()];
+  let dayNumber = util.zeroPad(today.getDate());
+  let hours = today.getHours();
+  if (preferences.clockDisplay === "12h") {
+    // 12h format
+    hours = hours % 12 || 12;
+  } else {
+    // 24h format
+    hours = util.zeroPad(hours);
+  }
+  let mins = util.zeroPad(today.getMinutes());
+
+  txtTime.text = `${hours}:${mins}`;
+  txtDate.text = `${dayName} ${monthName} ${dayNumber}`;
 }
-Clock.initialize("minutes", "longDate", clockCallback);
+
 
 
 
 /* -------- BATTERY -------- */
-let txtBattery = document.getElementById("txtBattery");
-let iconBattery = document.getElementById("iconBattery");
-let fillBattery = document.getElementById("fillBattery");
+const txtBattery = document.getElementById("txtBattery");
+const iconBattery = document.getElementById("iconBattery");
+const fillBattery = document.getElementById("fillBattery");
 
-function batteryCallback(data) {
-  txtBattery.text = data.text;
-  fillBattery.href = data.href;
-  fillBattery.width = data.width;
+// Update battery
+function updateBattery() {
+  
+  txtBattery.text = `${battery.chargeLevel}%`;
+  
+  if (battery.chargeLevel>90) {
+    fillBattery.href = "images/battery_green_.png";
+    fillBattery.width = 26;
+  } else if (battery.chargeLevel>16) {
+    fillBattery.href = "images/battery_green_short_.png";
+    fillBattery.width = Math.floor(0.25*battery.chargeLevel)
+  }    
 }
-Battery.initialize(batteryCallback);
-
 
 
 
 /* -------- HRM ------------- */
-let txtHRM = document.getElementById("txtHRM");
-let iconHRM = document.getElementById("iconHRM");
-let imgHRM = iconHRM.getElementById("icon");
+const txtHRM = document.getElementById("txtHRM");
+const iconHRM = document.getElementById("iconHRM");
+const imgHRM = iconHRM.getElementById("icon");
 
-function hrmCallback(data) {
-  txtHRM.text = `${data.bpm}`;
-  if (data.zone === "out-of-range") {
+// Update HRM
+function updateHRM(hrm) {
+  txtHRM.text = `${hrm.heartRate}`;
+  const zone = user.heartRateZone(hrm.heartRate || 0);
+  if (zone === "out-of-range") {
     imgHRM.href = "images/heart_open.png";
   } else {
     imgHRM.href = "images/heart_solid.png";
   }
-  if (data.bpm !== "--") {
+  if (txtHRM.text !== "--") {
     iconHRM.animate("highlight");
   }
 }
-HRM.initialize(hrmCallback);
+
+
 
 
 
 /* -------- HIDE -------- */
-txtDate.style.visibility = 'hidden';
-txtHRM.style.visibility = 'hidden';
-imgHRM.style.visibility = 'hidden';
-txtBattery.style.visibility = 'hidden';
-iconBattery.style.visibility = 'hidden';
-fillBattery.style.visibility = 'hidden';
+function changeVisibility(visibility) {
+  txtDate.style.visibility = visibility;
+  txtHRM.style.visibility = visibility;
+  imgHRM.style.visibility = visibility;
+  txtBattery.style.visibility = visibility;
+  iconBattery.style.visibility = visibility;
+  fillBattery.style.visibility = visibility;
+}
 txtTime.onclick = function(e) {
   if (txtDate.style.visibility == 'visible') {
-    txtDate.style.visibility = 'hidden';
-    txtHRM.style.visibility = 'hidden';
-    imgHRM.style.visibility = 'hidden';
-    txtBattery.style.visibility = 'hidden';
-    iconBattery.style.visibility = 'hidden';
-    fillBattery.style.visibility = 'hidden';
+    changeVisibility('hidden')
   } else {
-    txtDate.style.visibility = "visible";
-    txtHRM.style.visibility = 'visible';
-    imgHRM.style.visibility = 'visible';
-    txtBattery.style.visibility = 'visible';
-    iconBattery.style.visibility = 'visible';
-    fillBattery.style.visibility = 'visible';
+    changeVisibility('visible')
   }
 }
+
+
+
+
+
+/* --------- GENERAL ---------- */
+
+// Event listenets
+clock.ontick = (evt) => updateClock(evt);
+battery.onchange = () => updateBattery();  
+const hrm = new HeartRateSensor();
+hrm.start();
+hrm.onreading = () => updateHRM(hrm); 
+
+// Automatically stop the sensor when the screen is off to conserve battery
+display.addEventListener("change", (evt) => {
+  if (display.on) {
+    hrm.start();
+    updateBattery();
+    updateHRM(hrm);
+   } else {
+    hrm.stop();
+   }
+});
+
+
+ 
