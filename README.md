@@ -8,7 +8,7 @@ You can download and install the clock face [here](https://gallery.fitbit.com/de
 
 ## Updates
 
-- 1.1.2 Languages for days and months
+- 1.2.0 Languages for days and months
 - 1.1.1 HRM sensor deactivated when icon is hidden (saves battery)
 - 1.1.0 Battery life optimization
 - 1.0.0 First version
