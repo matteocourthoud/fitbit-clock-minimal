@@ -5,9 +5,8 @@ import { preferences } from "user-settings";
 import { display } from "display";
 import { clock } from "clock";
 import { battery } from "power";
-import { days, months } from "./locales/en.js";
+import { days, months } from "./locales/lang.js";
 import { HeartRateSensor } from "heart-rate";
-
 
 
 
@@ -20,7 +19,6 @@ clock.granularity = "minutes";
 function updateClock(evt) {
   let today = evt.date;
   let dayName = days[today.getDay()];
-  let month = util.zeroPad(today.getMonth() + 1);
   let monthName = months[today.getMonth()];
   let dayNumber = util.zeroPad(today.getDate());
   let hours = today.getHours();
@@ -34,7 +32,7 @@ function updateClock(evt) {
   let mins = util.zeroPad(today.getMinutes());
 
   txtTime.text = `${hours}:${mins}`;
-  txtDate.text = `${dayName} ${monthName} ${dayNumber}`;
+  txtDate.text = `${dayName}, ${monthName} ${dayNumber}`;
 }
 
 
